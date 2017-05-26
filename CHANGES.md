@@ -1,7 +1,16 @@
 # FileSync Changes
 
+* 2017-03-26 (**Version 4.2.4**)
+ * Add debug option via the command line additional to config setting. (`--debug`)
+ * Fix export not using subdir format
+ * Add support for more tables (service portal related)
+   * NOTE: Some folders like widgets are now sp_widgets (to group SP together). Ensure you rename both records/widgets and records/.sync_data/widgets to be "sp_widgets" OR define your own "folders" mapping in your config.json
+ * Add more debugging for problematic folder/sync configs and failed downloads
+ * Fix readme/documentation issues
+
 * 2016-12-22 (**Version 4.2.3**)
- * Support searching for and downloading records via a URL as search criteria
+ * Improved support for searching and downloading records.
+   * Eg. `node bin/app.js --config config.json --search <URL>`
 
 * 2016-11-01 (**Version 4.2.2**)
  * Add new search feature allowing easier downloading of single records

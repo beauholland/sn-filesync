@@ -1,4 +1,4 @@
-sn-filesync -- ServiceNow FileSync (v4.2.2)
+sn-filesync -- ServiceNow FileSync (v4.2.4)
 =================
 
 [![NPM](https://nodei.co/npm-dl/sn-filesync.png?height=3&months=9)](https://nodei.co/npm-dl/sn-filesync/)
@@ -88,7 +88,7 @@ The following demos assume a config file in `~/project/test/config.json` and rec
 
  * Start
 
-  `node bin/apps.js --config ~/project/test/config.json`
+  `node bin/app.js --config ~/project/test/config.json`
 
  * Download the script field from a script include
 
@@ -100,11 +100,11 @@ The following demos assume a config file in `~/project/test/config.json` and rec
 
  * Use search to **find** records to sync
 
- `node bin/apps.js --config ~/project/test/config.json --search mine`
+ `node bin/app.js --config ~/project/test/config.json --search mine`
 
  * Use search to **download** found records
 
- `node bin/apps.js --config ~/project/test/config.json --search mine --download`
+ `node bin/app.js --config ~/project/test/config.json --search mine --download`
 
  * Use search to download records including the complete record as JSON (useful to reference)
 

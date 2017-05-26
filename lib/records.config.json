@@ -139,7 +139,7 @@
             },
             "subDirPattern": "web_service_definition"
         },
-        "widgets": {
+        "sp_widgets": {
             "table": "sp_widget",
             "key": "name",
             "fields": {
@@ -147,8 +147,29 @@
                 "demo.js": "demo_data",
                 "server.js": "script",
                 "html": "template",
-                "scss": "scss"
-            }
+                "css": "css"
+            },
+            "subDirPattern": "servicenow_<servicenow>"
+        },
+        "sp_header_footer": {
+            "table": "sp_header_footer",
+            "key": "name",
+            "fields": {
+                "client.js": "client_script",
+                "demo.js": "demo_data",
+                "server.js": "script",
+                "html": "template",
+                "css": "css"
+            },
+            "subDirPattern": "servicenow_<servicenow>"
+        },
+        "sp_providers": {
+            "table": "sp_angular_provider",
+            "key": "name",
+            "fields": {
+                "js": "script"
+            },
+            "subDirPattern": "type"
         }
     }
 }
