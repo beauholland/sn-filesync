@@ -17,7 +17,6 @@
     "moment": "^2.10.2",
     "node-notifier": "^4.3.1",
     "node-sass": "^4.5.3",
-    "onchange": "^3.2.1",
     "osx-notifier": "^0.2.1",
     "winston": "^1.0.0"
   },
@@ -30,13 +29,12 @@
     "setup-mac": "./run-script/setup.cmd",
     "setup-win": "\"run-script\\setup.cmd\"",
 
-    "css-rttmsdev": "node-sass src/rttmsdev/style_sheets_source/portal-main.scss --output-style nested -o src/rttmsdev/style_sheets",
-    "watch-rttmsdev-css": "onchange \"src/rttmsdev/style_sheets_source/*.scss\" -i -- npm run css-rttmsdev",
+    "watch-rttmsdev-css": "node-sass src/rttmsdev/style_sheets_source/portal-main.scss -w src/rttmsdev/style_sheets_source --output-style compact -o src/rttmsdev/style_sheets",
     "watch-rttmsdev": "node bin/app.js --config rttmsdev.config.json",
 
-    "css-riotintodev": "node-sass src/riotintodev/style_sheets_source/portal-main.scss -o src/riotintodev/style_sheets",
-    "watch-riotintodev-css": "onchange \"src/riotintodev/style_sheets_source/*.scss\" -i -- npm run css-riotintodev",
+    "watch-riotintodev-css": "node-sass src/riotintodev/style_sheets_source/portal-main.scss -w src/riotintodev/style_sheets_source --output-style compact -o src/riotintodev/style_sheets",
     "watch-riotintodev": "node bin/app.js --config riotintodev.config.json",
+
     "search-rttmsdev": "\"run-script\\search.cmd rttmsdev\"",
     "search-riotintodev": "\"run-script\\search.cmd riotintodev\"",
     "search-rttmsdev-win": "\"run-script\\search.cmd rttmsdev\"",
