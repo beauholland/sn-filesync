@@ -57,7 +57,9 @@ var constants = {
 constants.chokiWatcherIgnore = [/[\/\\]\./, '**/*' + constants.fullRecordSuffix];
 
 // default to ok.
-var multiDownloadStatus = constants.DOWNLOAD_OK;
+var multiDownloadStatus = constants.DOWNLOAD_OK,
+    // support the end user
+    listOfFailedFiles = [];
 
 var testsRunning = false;
 
@@ -97,6 +99,9 @@ function init() {
     } catch (e) {
         winston.error('Configuration error:'.red, e.message);
         exitApp();
+    }
+    if (argv.debug) {
+        config.debug = true;
     }
 
     setupLogging();
@@ -253,9 +258,15 @@ function extractTableFromName(str) {
          * Example
          * http://localhost:16008/nav_to.do?uri=%2Fsp_widget.do%3Fsys_id%3Df37aa302cb70020000f8d856634c9cfc%26sysparm_record_target%3Dsp_widget
          *
+         * OR
+         *
+         * http://localhost:16008/nav_to.do?uri=sp_angular_provider.do?sys_id=06e836f0d722120023c84f80de6103a1"
+         *
          */
-        start = str.replace('_list', '').split('.do%3F');
-        end = start[0].split('uri=%2F');
+        // normalise the string
+        str = str.replace(/\%2F/g, '').replace(/\%3F/g, '');
+        start = str.replace('_list', '').split('.do');
+        end = start[1].split('uri=');
         table = end.pop();
 
     } else if (str.indexOf('.do') >= 0) {
@@ -704,12 +715,13 @@ function processFoundRecords(searchObj, queryObj, records) {
         // TODO : looks broken because locDB.fieldSuffix is undefined???
         //        also broken if SN uses scss (sp_widget.css field is scss enabled)
         //        work around for now is to configure folder definitions to save as ".css" files
-        var isSCSSRecord = FileRecordUtil.isSCSS(record.recordName);
-        // check that it is really a SCSS file and not a CSS file!
-        if (suffix == 'scss' && !isSCSSRecord || suffix == 'css' && isSCSSRecord) {
-            logit.info('Avoiding duplicate CSS/SCSS files: ' + bestGuessName);
-            continue; // skip, avoid duplicates
-        }
+        // var isSCSSRecord = FileRecordUtil.isSCSS(record.recordName);
+        // // check that it is really a SCSS file and not a CSS file!
+        // PipeFish: commented out check for duplicates - will need to fix
+        // if (suffix == 'scss' && !isSCSSRecord || suffix == 'css' && isSCSSRecord) {
+        //     logit.info('Avoiding duplicate CSS/SCSS files: ' + bestGuessName);
+        //     continue; // skip, avoid duplicates
+        // }
 
 
 
@@ -881,6 +893,7 @@ function addConfigFiles() {
                 // each file to create
                 for (var file in root.preLoadList[folder]) {
                     var filePath = path.join(r, folder, root.preLoadList[folder][file]);
+
                     addToPreLoadList(filePath, {
                         filePath: filePath
                     });
@@ -897,6 +910,7 @@ function addToPreLoadList(filePath, options) {
         filePath: filePath
     };
     // only process if we don't already have it in the list
+    // todo: assumes all file names are unique!
     if (typeof filesToPreLoad[filePath] == 'undefined') {
         filesToPreLoad[filePath] = options;
         addFile(filePath);
@@ -934,7 +948,7 @@ function displayHelp() {
 function handleError(err, context) {
     logit.error(err);
     if (context) {
-        logit.error('  handleError context:', context);
+        logit.error('handleError context:', context);
     }
 }
 
@@ -970,9 +984,13 @@ function exportCurrentSetup(exportConfigPath) {
     for (var i in watchedFolders) {
         // remove sensitive data that may exist
         delete exportConfig.roots[watchedFolders[i]].auth;
+
+        // remove caching properties
+        delete exportConfig.roots[watchedFolders[i]].root;
+
         // overwrite remaining sensitive data
         exportConfig.roots[watchedFolders[i]].user = '<your user name>';
-        exportConfig.roots[watchedFolders[i]].pass = '<your password (which will be encrypted)>';
+        exportConfig.roots[watchedFolders[i]].pass = '<your password (which will become encrypted)>';
 
         exportConfig.roots[watchedFolders[i]].preLoadList = {};
     }
@@ -991,13 +1009,14 @@ function exportCurrentSetup(exportConfigPath) {
                 var f = new FileRecord(config, file),
                     folder = f.getFolderName(),
                     fileName = f.getFileName(),
+                    exportPath = f.getFileSubDirPath(),
                     rootDir = f.getRoot();
 
                 // add to appropriate preLoadList folder array
                 if (!exportConfig.roots[rootDir].preLoadList[folder]) {
                     exportConfig.roots[rootDir].preLoadList[folder] = [];
                 }
-                exportConfig.roots[rootDir].preLoadList[folder].push(fileName);
+                exportConfig.roots[rootDir].preLoadList[folder].push(exportPath);
             }
         })
         .on('ready', function () {
@@ -1050,7 +1069,11 @@ function decrementQueue() {
             notifyEnabled = true;
             // show one notification to represent if all files were downloaded or not
             if (multiDownloadStatus == constants.DOWNLOAD_FAIL) {
-                logit.error('Some or all files failed to download'.red);
+                logit.error('Files failed to download.'.red + ' See list below for details.');
+                // TODO, show what files failed
+                logit.info(listOfFailedFiles);
+                // reset list
+                listOfFailedFiles = [];
                 notifyUser(msgCodes.COMPLEX_ERROR);
             } else {
                 notifyUser(msgCodes.ALL_DOWNLOADS_COMPLETE);
@@ -1100,7 +1123,12 @@ function validResponse(err, obj, db, map, fileRecord) {
 
 function receive(file, allDoneCallBack) {
     var map = fileRecords[file].getSyncMap(),
-        fileMeta = fileRecords[file].getMeta();
+        fileMeta = fileRecords[file].getMeta(),
+        // the sys_id either comes from the meta (if already exists) or the file name or not at all
+        sys_id = fileMeta.sys_id || extractSysIdFromName(map.keyValue) || false,
+        // map.keyValue could be like "insert_problem.d5e561f3c0a8000901a883289848f88d"
+        // this is a combination of sys_id and name. Use sys_id from name when possible and ignore the query
+        query = sys_id ? '' : map.key + '=' + map.keyValue;
 
     logit.debug('Adding:', {
         file: file,
@@ -1117,12 +1145,13 @@ function receive(file, allDoneCallBack) {
     var db = {
         table: map.table,
         field: map.field,
-        query: map.key + '=' + map.keyValue,
-        sys_id: fileMeta.sys_id || false
+        query: query,
+        sys_id: sys_id
     };
 
     snc.table(db.table).getRecords(db, function (err, obj) {
         var isValid = validResponse(err, obj, db, map, fileRecords[file]);
+
         if (!isValid) {
             decrementQueue();
             allDoneCallBack(false);
@@ -1132,6 +1161,7 @@ function receive(file, allDoneCallBack) {
         var record = obj.records[0],
             objData = record[db.field],
             objName = record.name; // TODO : use objName instead of file var.
+
 
 
         // legacy concept (still needed??... TODO: don't allow creation of 0 byte files!)
@@ -1379,7 +1409,8 @@ function addFile(file, callback) {
     // default callback
     callback = callback || function (complete) {
         if (!complete) {
-            logit.info(('Could not add file:  ' + file).red);
+            logit.warn(('Could not add file:  ' + file));
+            listOfFailedFiles.push(file);
             multiDownloadStatus = constants.DOWNLOAD_FAIL;
         }
     };
@@ -1542,10 +1573,16 @@ function watchFolders() {
 
                         addFile(file);
                     }
+                } else {
+                    // file could be invalid (eg, folder mapping missing)
+                    logit.warn('File cannot be tracked because it is not valid: %s', file);
                 }
 
             } else {
-                trackFile(file);
+                if (!trackFile(file)) {
+                    // file could be invalid (eg, folder mapping missing)
+                    logit.warn('File cannot be tracked because it is not valid: %s', file);
+                }
             }
         })
         .on('change', onChange)
