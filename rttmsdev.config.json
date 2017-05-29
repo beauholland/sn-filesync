@@ -2,8 +2,7 @@
     "roots": {
         "src/rttmsdev": {
             "host": "rttmsdev.service-now.com",
-            "user": "",
-            "pass": ""
+            "auth": "Y3JhaWcuY2FzdGxlZGluZS4xOkF2YXIxM3R5MQ=="
         }
     },
     "search": {

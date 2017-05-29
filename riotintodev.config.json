@@ -1,9 +1,8 @@
 {
 	"roots": {
 		"src/riotintodev": {
-			"host": "riotintodev.service-now.com",
-			"user": "",
-            "pass": ""
+            "host": "riotintodev.service-now.com",
+            "auth": "Y3JhaWcuY2FzdGxlZGluZS4xOkF2YXIxM3R5MQ=="
 		}
 	},
 	"search": {

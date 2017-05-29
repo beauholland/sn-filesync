@@ -998,7 +998,12 @@ function exportCurrentSetup(exportConfigPath) {
     var chokiWatcher = chokidar.watch(watchedFolders, {
             persistent: true,
             // ignores use anymatch (https://github.com/es128/anymatch)
-            ignored: constants.chokiWatcherIgnore
+            ignored: constants.chokiWatcherIgnore,
+            awaitWriteFinish: {
+                stabilityThreshold: 2000,
+                pollInterval: 500
+            },
+            useFsEvents: true
         })
         .on('add', function (file, stats) {
             // add all files that have content..
@@ -1554,7 +1559,14 @@ function watchFolders() {
             ignored: constants.chokiWatcherIgnore,
 
             // performance hit?
-            alwaysStat: true
+            alwaysStat: true,
+
+            awaitWriteFinish: {
+                stabilityThreshold: 2000,
+                pollInterval: 500
+            },
+            useFsEvents: true
+            
         })
         .on('add', function (file, stats) {
 
