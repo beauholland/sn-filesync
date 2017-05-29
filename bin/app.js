@@ -715,12 +715,13 @@ function processFoundRecords(searchObj, queryObj, records) {
         // TODO : looks broken because locDB.fieldSuffix is undefined???
         //        also broken if SN uses scss (sp_widget.css field is scss enabled)
         //        work around for now is to configure folder definitions to save as ".css" files
-        var isSCSSRecord = FileRecordUtil.isSCSS(record.recordName);
-        // check that it is really a SCSS file and not a CSS file!
-        if (suffix == 'scss' && !isSCSSRecord || suffix == 'css' && isSCSSRecord) {
-            logit.info('Avoiding duplicate CSS/SCSS files: ' + bestGuessName);
-            continue; // skip, avoid duplicates
-        }
+        // var isSCSSRecord = FileRecordUtil.isSCSS(record.recordName);
+        // // check that it is really a SCSS file and not a CSS file!
+        // PipeFish: commented out check for duplicates - will need to fix
+        // if (suffix == 'scss' && !isSCSSRecord || suffix == 'css' && isSCSSRecord) {
+        //     logit.info('Avoiding duplicate CSS/SCSS files: ' + bestGuessName);
+        //     continue; // skip, avoid duplicates
+        // }
 
 
 

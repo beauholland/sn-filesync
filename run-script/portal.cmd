@@ -7,6 +7,7 @@ node bin/app.js --config $1.config.json --search portal-scripts
 node bin/app.js --config $1.config.json --search portal-macro
 node bin/app.js --config $1.config.json --search portal-content
 node bin/app.js --config $1.config.json --search portal-css
+node bin/app.js --config $1.config.json --search portal-css-source
 exit
 
 :windows
@@ -17,3 +18,4 @@ node bin/app.js --config %1.config.json --search portal-scripts
 node bin/app.js --config %1.config.json --search portal-macro
 node bin/app.js --config %1.config.json --search portal-content
 node bin/app.js --config %1.config.json --search portal-css
+node bin/app.js --config %1.config.json --search portal-css-source

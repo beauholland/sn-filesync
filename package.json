@@ -7,6 +7,7 @@
     "filesync": "./bin/app.js"
   },
   "dependencies": {
+    "@mishguru/restler": "https://github.com/mishguruorg/restler/tarball/master",
     "assert-plus": "^1.0.0",
     "chokidar": "^1.0.0",
     "colors": "^1.1.0",
@@ -15,8 +16,9 @@
     "minimist": "^1.1.1",
     "moment": "^2.10.2",
     "node-notifier": "^4.3.1",
+    "node-sass": "^4.5.3",
+    "onchange": "^3.2.1",
     "osx-notifier": "^0.2.1",
-    "@mishguru/restler": "https://github.com/mishguruorg/restler/tarball/master",
     "winston": "^1.0.0"
   },
   "engines": {
@@ -27,6 +29,11 @@
     "setup": "\"run-script\\setup.cmd\"",
     "setup-mac": "./run-script/setup.cmd",
     "setup-win": "\"run-script\\setup.cmd\"",
+
+    "css-rttmsdev": "node-sass src/rttmsdev/style_sheets_source/portal-main.scss -o src/rttmsdev/style_sheets",
+    "watch-rttmsdev-css": "onchange \"src/rttmsdev/style_sheets_source/*.scss\" -i -- npm run css-rttmsdev",
+    "css-riotintodev": "node-sass src/riotintodev/style_sheets_source/portal-main.scss -o src/riotintodev/style_sheets",
+    "watch-riotintodev-css": "onchange \"src/riotintodev/style_sheets_source/*.scss\" -i -- npm run css-riotintodev",
 
     "watch-rttmsdev": "node bin/app.js --config rttmsdev.config.json",
     "watch-riotintodev": "node bin/app.js --config riotintodev.config.json",
@@ -39,7 +46,7 @@
     "search-riotintodev-mac": "./run-script/search.cmd riotintodev",
 
     "resync-rttmsdev": "node bin/app.js --config rttmsdev.config.json --resync",
-    "resync-riotintodev": "node bin/app.js --config riotintodev.config.json --resync" ,
+    "resync-riotintodev": "node bin/app.js --config riotintodev.config.json --resync",
 
     "portal-rttmsdev": "\"run-script\\portal.cmd rttmsdev\"",
     "portal-riotintodev": "\"run-script\\portal.cmd riotintodev\"",
