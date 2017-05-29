@@ -35,7 +35,7 @@
     "css-riotintodev": "node-sass src/riotintodev/style_sheets_source/portal-main.scss -o src/riotintodev/style_sheets",
     "watch-riotintodev-css": "onchange \"src/riotintodev/style_sheets_source/*.scss\" -i -- npm run css-riotintodev",
 
-    "watch-rttmsdev": "node bin/app.js --config rttmsdev.config.json",
+    "watch-rttmsdev": "start npm run watch-rttmsdev-css && start node bin/app.js --config rttmsdev.config.json",
     "watch-riotintodev": "node bin/app.js --config riotintodev.config.json",
 
     "search-rttmsdev": "\"run-script\\search.cmd rttmsdev\"",
