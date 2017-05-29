@@ -1,0 +1,3 @@
+[submodule "src"]
+	path = src
+	url = https://craigcastledine@bitbucket.org/craigcastledine/rttms-sn-sync.git
