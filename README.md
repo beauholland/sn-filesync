@@ -19,6 +19,7 @@ This is a **maintained** fork from [https://github.com/dynamicdan/sn-filesync](h
 `npm install`
 
 * This will populate the `node_modules` directory with dependancies. Since we are behind a proxy the .npmrc files we copied above should work. If you get authentication errors, close the command / terminal and re-open.
+* Open your preferred editor (Visual Studio Code, Sublime...) and open the sn-filesync folder.
 * Update the files **rttmsdev.config.json** and **riotintodev.config.json** with your username and password for each instance. 
 NOTE: use "corp\\\\first.last" and include the double backslash.
 
