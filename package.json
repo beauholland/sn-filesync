@@ -35,8 +35,8 @@
     "watch-rttmsdev": "node bin/app.js --config riotintodev.config.json",
     "watch-riotintodev": "node bin/app.js --config riotintodev.config.json",
 
-    "watch-rttmsdev-all": "start npm run watch-rttmsdev-css && start watch-rttmsdev",
-    "watch-riotintodev-all": "start npm run watch-riotintodev-css && start watch-riotintodev",
+    "watch-rttmsdev-all": "start npm run watch-rttmsdev-css && watch-rttmsdev",
+    "watch-riotintodev-all": "start npm run watch-riotintodev-css && watch-riotintodev",
 
     "search-rttmsdev": "\"run-script\\search.cmd rttmsdev\"",
     "search-riotintodev": "\"run-script\\search.cmd riotintodev\"",
@@ -44,8 +44,10 @@
     "search-riotintodev-win": "\"run-script\\search.cmd riotintodev\"",
     "search-rttmsdev-mac": "./run-script/search.cmd rttmsdev",
     "search-riotintodev-mac": "./run-script/search.cmd riotintodev",
+    
     "resync-rttmsdev": "node bin/app.js --config rttmsdev.config.json --resync",
     "resync-riotintodev": "node bin/app.js --config riotintodev.config.json --resync",
+    
     "portal-rttmsdev": "\"run-script\\portal.cmd rttmsdev\"",
     "portal-riotintodev": "\"run-script\\portal.cmd riotintodev\"",
     "portal-rttmsdev-win": "\"run-script\\portal.cmd rttmsdev\"",
