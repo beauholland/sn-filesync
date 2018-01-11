@@ -6,7 +6,8 @@
             "fields": {
                 "js": "script"
             },
-            "subDirPattern": "collection/when"
+            "subDirPattern": "collection/when",
+            "_custom": true
         },
         "client_scripts": {
             "table": "sys_script_client",
@@ -14,28 +15,32 @@
             "fields": {
                 "js": "script"
             },
-            "subDirPattern": "table/type"
+            "subDirPattern": "table/type",
+            "_custom": true
         },
         "email_scripts": {
             "table": "sys_script_email",
             "key": "name",
             "fields": {
                 "js": "script"
-            }
+            },
+            "_custom": true
         },
         "inbound_actions": {
             "table": "sysevent_in_email_action",
             "key": "name",
             "fields": {
                 "js": "script"
-            }
+            },
+            "_custom": true
         },
         "processors": {
             "table": "sys_processor",
             "key": "name",
             "fields": {
                 "js": "script"
-            }
+            },
+            "_custom": true
         },
         "script_actions": {
             "table": "sysevent_script_action",
@@ -43,7 +48,8 @@
             "fields": {
                 "js": "script"
             },
-            "subDirPattern": "event_name"
+            "subDirPattern": "event_name",
+            "_custom": true
         },
         "script_includes": {
             "table": "sys_script_include",
@@ -51,7 +57,8 @@
             "fields": {
                 "js": "script"
             },
-            "subDirPattern": "client_<client_callable>"
+            "subDirPattern": "client_<client_callable>",
+            "_custom": true
         },
         "style_sheets": {
             "table": "content_css",
@@ -60,13 +67,21 @@
                 "css": "style"
             }
         },
+        "style_sheets_source": {
+            "table": "u_content_css",
+            "key": "u_name",
+            "fields": {
+                "scss": "u_style"
+            }
+        },
         "ui_actions": {
             "table": "sys_ui_action",
             "key": "name",
             "fields": {
                 "js": "script"
             },
-            "subDirPattern": "table/client_<client>"
+            "subDirPattern": "table/client_<client>",
+            "_custom": true
         },
         "ui_macros": {
             "table": "sys_ui_macro",
@@ -74,7 +89,8 @@
             "fields": {
                 "xhtml": "xml"
             },
-            "subDirPattern": "category"
+            "subDirPattern": "category",
+            "_custom": true
         },
         "ui_pages": {
             "table": "sys_ui_page",
@@ -84,14 +100,16 @@
                 "client.js": "client_script",
                 "server.js": "processing_script"
             },
-            "subDirPattern": "category"
+            "subDirPattern": "category",
+            "_custom": true
         },
         "ui_scripts": {
             "table": "sys_ui_script",
             "key": "name",
             "fields": {
                 "js": "script"
-            }
+            },
+            "_custom": true
         },
         "dynamic_content_blocks": {
             "table": "content_block_programmatic",
@@ -99,22 +117,25 @@
             "fields": {
                 "xhtml": "programmatic_content"
             },
-            "subDirPattern": "category"
+            "subDirPattern": "category",
+            "_custom": true
         },
         "email_templates": {
             "table": "sysevent_email_template",
             "key": "name",
             "fields": {
-                "html": "message_html"
+                "html": "message"
             },
-            "subDirPattern": "collection"
+            "subDirPattern": "collection",
+            "_custom": true
         },
         "fix_scripts": {
             "table": "sys_script_fix",
             "key": "name",
             "fields": {
                 "js": "script"
-            }
+            },
+            "_custom": true
         },
         "catalog_client_scripts": {
             "table": "catalog_script_client",
@@ -122,14 +143,16 @@
             "fields": {
                 "js": "script"
             },
-            "subDirPattern": "applies_to_<applies_to>/type"
+            "subDirPattern": "applies_to_<applies_to>/type",
+            "_custom": true
         },
         "sys_web_service": {
             "table": "sys_web_service",
             "key": "name",
             "fields": {
                 "js": "script"
-            }
+            },
+            "_custom": true
         },
         "web_service_resources": {
             "table": "sys_ws_operation",
@@ -137,7 +160,40 @@
             "fields": {
                 "js": "operation_script"
             },
-            "subDirPattern": "web_service_definition"
+            "subDirPattern": "web_service_definition",
+            "_custom": true
+        },
+        "sp_widgets": {
+            "table": "sp_widget",
+            "key": "name",
+            "fields": {
+                "client.js": "client_script",
+                "demo.js": "demo_data",
+                "server.js": "script",
+                "html": "template",
+                "css": "css"
+            },
+            "subDirPattern": "servicenow_<servicenow>"
+        },
+        "sp_header_footer": {
+            "table": "sp_header_footer",
+            "key": "name",
+            "fields": {
+                "client.js": "client_script",
+                "demo.js": "demo_data",
+                "server.js": "script",
+                "html": "template",
+                "css": "css"
+            },
+            "subDirPattern": "servicenow_<servicenow>"
+        },
+        "sp_providers": {
+            "table": "sp_angular_provider",
+            "key": "name",
+            "fields": {
+                "js": "script"
+            },
+            "subDirPattern": "type"
         },
         "widgets": {
             "table": "sp_widget",
@@ -148,7 +204,16 @@
                 "server.js": "script",
                 "html": "template",
                 "scss": "scss"
-            }
+            },
+            "_custom": true
+        },
+        "sys_ws_operation": {
+            "table": "sys_ws_operation",
+            "key": "name",
+            "fields": {
+                "js": "operation_script"
+            },
+            "_custom": true
         }
     }
 }

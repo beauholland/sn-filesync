@@ -1,12 +1,13 @@
 {
   "name": "sn-filesync",
-  "version": "4.2.3",
+  "version": "4.2.4",
   "description": "Enables out of instance record updates for ServiceNow.",
   "main": "bin/app.js",
   "bin": {
     "filesync": "./bin/app.js"
   },
   "dependencies": {
+    "@mishguru/restler": "https://github.com/mishguruorg/restler/tarball/master",
     "assert-plus": "^1.0.0",
     "chokidar": "^1.0.0",
     "colors": "^1.1.0",
@@ -15,8 +16,8 @@
     "minimist": "^1.1.1",
     "moment": "^2.10.2",
     "node-notifier": "^4.3.1",
+    "node-sass": "^4.5.3",
     "osx-notifier": "^0.2.1",
-    "@mishguru/restler": "https://github.com/mishguruorg/restler/tarball/master",
     "winston": "^1.0.0"
   },
   "engines": {
@@ -24,7 +25,35 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "setup": "\"run-script\\setup.cmd\"",
+    "setup-mac": "./run-script/setup.cmd",
+    "setup-win": "\"run-script\\setup.cmd\"",
+    
+    "watch-rttmsdev-css": "node-sass src/rttmsdev/style_sheets_source/portal-main.scss -w src/rttmsdev/style_sheets_source --output-style compact -o src/rttmsdev/style_sheets",
+    "watch-riotintodev-css": "node-sass src/riotintodev/style_sheets_source/portal-main.scss -w src/riotintodev/style_sheets_source --output-style compact -o src/riotintodev/style_sheets",
+    
+    "watch-rttmsdev": "node bin/app.js --config rttmsdev.config.json",
+    "watch-riotintodev": "node bin/app.js --config riotintodev.config.json",
+
+    "watch-rttmsdev-all": "start npm run watch-rttmsdev-css && watch-rttmsdev",
+    "watch-riotintodev-all": "start npm run watch-riotintodev-css && watch-riotintodev",
+
+    "search-rttmsdev": "\"run-script\\search.cmd rttmsdev\"",
+    "search-riotintodev": "\"run-script\\search.cmd riotintodev\"",
+    "search-rttmsdev-win": "\"run-script\\search.cmd rttmsdev\"",
+    "search-riotintodev-win": "\"run-script\\search.cmd riotintodev\"",
+    "search-rttmsdev-mac": "./run-script/search.cmd rttmsdev",
+    "search-riotintodev-mac": "./run-script/search.cmd riotintodev",
+    
+    "resync-rttmsdev": "node bin/app.js --config rttmsdev.config.json --resync",
+    "resync-riotintodev": "node bin/app.js --config riotintodev.config.json --resync",
+    
+    "portal-rttmsdev": "\"run-script\\portal.cmd rttmsdev\"",
+    "portal-riotintodev": "\"run-script\\portal.cmd riotintodev\"",
+    "portal-rttmsdev-win": "\"run-script\\portal.cmd rttmsdev\"",
+    "portal-riotintodev-win": "\"run-script\\portal.cmd riotintodev\"",
+    "portal-rttmsdev-mac": "./run-script/portal.cmd rttmsdev",
+    "portal-riotintodev-mac": "./run-script/portal.cmd riotintodev"
   },
   "repository": {
     "type": "git",
