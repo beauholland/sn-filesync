@@ -9,19 +9,19 @@
     "search": {
         "portal-pages": {
             "table": "sys_ui_page",
-            "query": "nameSTARTSWITHportal",
+            "query": "nameSTARTSWITHportal^ORnameSTARTSWITHptl.",
             "records_per_search": "200",
             "download": true
         },
         "portal-scripts": {
             "table": "sys_ui_script",
-            "query": "nameSTARTSWITHportal",
+            "query": "nameSTARTSWITHportal^ORnameSTARTSWITHptl.",
             "records_per_search": "200",
             "download": true
         },
         "portal-macro": {
             "table": "sys_ui_macro",
-            "query": "nameSTARTSWITHportal",
+            "query": "nameSTARTSWITHportal^ORnameSTARTSWITHptl.",
             "records_per_search": "200",
             "download": true
         },
@@ -33,7 +33,7 @@
         },
         "portal-css": {
             "table": "content_css",
-            "query": "nameSTARTSWITHportal",
+            "query": "nameSTARTSWITHportal^ORnameSTARTSWITHptl.",
             "records_per_search": "200",
             "download": true
         },
@@ -41,6 +41,12 @@
             "table": "u_content_css",
             "records_per_search": "200",
             "download": true
+        },
+        "email_content_blocks": {
+            "table": "u_sysevent_email_content_block",
+            "query": "active=true",
+            "records_per_search": "200",
+            "_custom": true
         }
     },
     "preLoad": false,

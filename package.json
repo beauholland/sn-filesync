@@ -18,7 +18,8 @@
     "node-notifier": "^4.3.1",
     "node-sass": "^4.5.3",
     "osx-notifier": "^0.2.1",
-    "winston": "^1.0.0"
+    "winston": "^1.0.0",
+    "ws": "^5.2.0"
   },
   "engines": {
     "node": ">=4.2.6 || >=5.0"
@@ -28,26 +29,20 @@
     "setup": "\"run-script\\setup.cmd\"",
     "setup-mac": "./run-script/setup.cmd",
     "setup-win": "\"run-script\\setup.cmd\"",
-    
     "watch-rttmsdev-css": "node-sass src/rttmsdev/style_sheets_source/portal-main.scss -w src/rttmsdev/style_sheets_source --output-style compact -o src/rttmsdev/style_sheets",
     "watch-riotintodev-css": "node-sass src/riotintodev/style_sheets_source/portal-main.scss -w src/riotintodev/style_sheets_source --output-style compact -o src/riotintodev/style_sheets",
-    
     "watch-rttmsdev": "node bin/app.js --config rttmsdev.config.json",
     "watch-riotintodev": "node bin/app.js --config riotintodev.config.json",
-
     "watch-rttmsdev-all": "start npm run watch-rttmsdev-css && watch-rttmsdev",
     "watch-riotintodev-all": "start npm run watch-riotintodev-css && watch-riotintodev",
-
     "search-rttmsdev": "\"run-script\\search.cmd rttmsdev\"",
     "search-riotintodev": "\"run-script\\search.cmd riotintodev\"",
     "search-rttmsdev-win": "\"run-script\\search.cmd rttmsdev\"",
     "search-riotintodev-win": "\"run-script\\search.cmd riotintodev\"",
     "search-rttmsdev-mac": "./run-script/search.cmd rttmsdev",
     "search-riotintodev-mac": "./run-script/search.cmd riotintodev",
-    
     "resync-rttmsdev": "node bin/app.js --config rttmsdev.config.json --resync",
     "resync-riotintodev": "node bin/app.js --config riotintodev.config.json --resync",
-    
     "portal-rttmsdev": "\"run-script\\portal.cmd rttmsdev\"",
     "portal-riotintodev": "\"run-script\\portal.cmd riotintodev\"",
     "portal-rttmsdev-win": "\"run-script\\portal.cmd rttmsdev\"",
