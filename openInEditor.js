@@ -1,4 +1,4 @@
-// This is only for sublime
+// This is for "sublime", "atom", "webstorm", "vim" (Mac OS only), "visualstudio"
 var openInEditor = require('open-in-editor');
 var config = require('./editorConfig.json');
 var file = process.argv[2];

@@ -19,7 +19,8 @@
     "node-sass": "^4.5.3",
     "osx-notifier": "^0.2.1",
     "winston": "^1.0.0",
-    "ws": "^5.2.0"
+    "ws": "^5.2.0",
+    "open-in-editor": "^2.2.0"
   },
   "engines": {
     "node": ">=4.2.6 || >=5.0"
