@@ -2,7 +2,9 @@
 logs
 *.log
 npm-debug.log*
-src
+src/rttmsdev/*
+src/riotintodev/*
+!.gitkeep
 
 # Runtime data
 pids

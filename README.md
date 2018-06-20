@@ -3,11 +3,23 @@ ServiceNow File Sync -- PipeFish edition
 
 ## Intro
 
-Why manually copy and paste code from you local editor of choice into the correct browser tab, record, field, ServiceNow instance... There is a better way.
+Do you hate switching contexts from your browser to your favourite text editor when developing across records within ServiceNow?
 
-This FileSync watcher synchronises ServiceNow instance field values to local files and syncs file changes back to the applicable record. This enables ServiceNow developers to use their favourite integrated development environments (IDEs) and text editors like Visual Studio Code, WebStorm, Sublime and Brackets for editing JavaScript, HTML, Jelly and other code - without wasting time and interrupting development workflow copying and pasting code into a browser.
+Wouldn't it be nice if you had an **Open in Editor** button that automatically downloaded code (html, javascript, jelly, css etc) and synchronized changes back up to ServiceNow?
 
-This is a **maintained** fork from [https://github.com/dynamicdan/sn-filesync](https://github.com/dynamicdan/sn-filesync) used specifically by [PipeFish](http://www.pipefish.com.au). Please review the original [readme](https://github.com/dynamicdan/sn-filesync) for more details on how to use the sync tool.
+![Alt text](Open In Editor.png?raw=true "Open in Editor")
+
+The **Open in Editor** UI Action has been configured to show on specific records. See **openInEditor.UI.Action.js**
+
+The **Open in Editor** UI Action uses WebSockets to send data about the specific record / table to a listening server **server.js** 
+
+The server component needs to be running first: Run `node server.js` to start.
+
+
+NOTE: This is a **maintained** fork from [https://github.com/dynamicdan/sn-filesync](https://github.com/dynamicdan/sn-filesync) used specifically by [PipeFish](http://www.pipefish.com.au). Please review the original [readme](https://github.com/dynamicdan/sn-filesync) for more details on how to use the sync tool.
+
+
+
 
 ## PipeFish Intall and Setup
 
@@ -27,23 +39,19 @@ NOTE: use "corp\\\\first.last" and include the double backslash.
 "roots": {
     "src/rttmsdev": {
         "host": "rttmsdev.service-now.com",
-        "user": "",
+        "user": "corp\\firstname.lastname",
         "pass": ""
     }
 },
 ```
 
-* Run the setup script to create **src** folder containing the different environment source files
+* Modify **editorConfig.json** with your preferred editor option
 
-`npm run setup`
+```javascript
+{
+	"preferredEditor" : "code" // or "sublime" etc
+}
+```
 
-* Use the following node run scripts within the root directory...
-
-* `npm run portal-rttmsdev` <br>downloads all PORTAL related files for RTTMSDEV into src
-* `npm run watch-rttmsdev` <br>watches for changes in src\rttmsdev and uploads
-* `npm run search-rttmsdev` <br>prompts for "Table name" and "Entity name" and downloads the script files into the correct mapped folder. <br>EXAMPLE: Table name = **sys_script_include** Entity name = **RioDev** it will find the Script Include RioDevHelper and download the source file into the script_includes folder. The search script uses the starts with query params and check the name or u_name fields for a match. Each match will be downloaded locally.
-* `npm run resync-rttmsdev` <br>downloads the latest source files from the instance locally. NOTE: local changes will be overwritten.
-* `npm run watch-rttmsdev-css` <br>Watches changes to sass files (scss) and outputs css files. NOTE: this process only works if you have already downloaded the resources in "style_sheets" & "style_sheets_source".
-* `npm run watch-rttmsdev-all` <br>Lauches both watches to monitor file changes and style sheet changes. 
-
-NOTE: with the above script you can replace **rttmsdev** with **riotintodev** to work with our PATCH environment.
+* Run `node server.js` to start
+* Navigate to a record, click the UI ACTION "Open in Editor"
