@@ -7,7 +7,7 @@ Do you hate switching contexts from your browser to your favourite text editor w
 
 Wouldn't it be nice if you had an **Open in Editor** button that automatically downloaded code (html, javascript, jelly, css etc) and synchronized changes back up to ServiceNow?
 
-![Alt text](Open In Editor.png?raw=true "Open in Editor")
+![Alt text](https://github.com/beauholland/sn-filesync/blob/PipeFish-custom/Open%20In%20Editor.png "Open in Editor")
 
 The **Open in Editor** UI Action has been configured to show on specific records. See **openInEditor.UI.Action.js**
 
