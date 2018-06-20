@@ -80,8 +80,10 @@ function downloadFile(env, table, sys_id) {
         // Get the full path of the file, where the syntool saved the downloaded file to
         if(string.includes("Saved file")) {
             file = "./" + string.split('Saved file')[1].replace(" ", "");
-            console.log("FILE: " + file);
-        }
+            file = file.replace("\n", "");
+            file = '"' + file + '"';
+            console.log("<FILE: >" + file);
+        } 
     });
 
     ls.stderr.on('data', (data) => {
@@ -97,12 +99,12 @@ function downloadFile(env, table, sys_id) {
 
         // If preferred editor is vsCode then no need to call the module
         // as it can be called from command prompt
-        if(pref.preferredEditor != "sublime") {
-            var vsCode = spawn('cmd', ['/c', 'code ./src/' + env + ' ' + file]);
+        if(pref.preferredEditor == "code") {
+            var editor = spawn('cmd', ['/s', '/c', 'code ./src/'+ env + " " + file], {windowsVerbatimArguments: true});
         } else {
-            // preferred is sublime so gotta use open-in-editor package
-            var editor = spawn('cmd', ['/c', 'node openInEditor.js ' + file]);
-        }
+            // preferred is sublime or something else, so use open-in-editor module
+            var editor = spawn('cmd', ['/s', '/c', 'node openInEditor.js ' + file], {windowsVerbatimArguments: true});
+        } 
 
         //process.exit(0); // dont close the parent process lol 
     });
