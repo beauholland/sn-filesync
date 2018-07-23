@@ -65,7 +65,17 @@ var testsRunning = false;
 
 var chokiWatcher = false,
     chokiWatcherReady = false;
-
+var chokidarWatchConfig = {
+    persistent: true,
+    // ignores use anymatch (https://github.com/es128/anymatch)
+    ignored: constants.chokiWatcherIgnore,
+    awaitWriteFinish: {
+        stabilityThreshold: 1500,
+        pollInterval: 100
+    },
+    usePolling: false,
+    useFsEvents: true
+};
 
 var filesInQueueToDownload = 0,
     filesToPreLoad = {};
@@ -995,16 +1005,7 @@ function exportCurrentSetup(exportConfigPath) {
         exportConfig.roots[watchedFolders[i]].preLoadList = {};
     }
 
-    var chokiWatcher = chokidar.watch(watchedFolders, {
-            persistent: true,
-            // ignores use anymatch (https://github.com/es128/anymatch)
-            ignored: constants.chokiWatcherIgnore,
-            awaitWriteFinish: {
-                stabilityThreshold: 2000,
-                pollInterval: 500
-            },
-            useFsEvents: true
-        })
+    var chokiWatcher = chokidar.watch(watchedFolders, chokidarWatchConfig)
         .on('add', function (file, stats) {
             // add all files that have content..
             //  files without content will confuse the person starting
@@ -1553,21 +1554,7 @@ function watchFolders() {
 
     logit.info('*********** Watching for changes ***********'.green);
     var watchedFolders = Object.keys(config.roots);
-    chokiWatcher = chokidar.watch(watchedFolders, {
-            persistent: true,
-            // ignores use anymatch (https://github.com/es128/anymatch)
-            ignored: constants.chokiWatcherIgnore,
-
-            // performance hit?
-            alwaysStat: true,
-
-            awaitWriteFinish: {
-                stabilityThreshold: 2000,
-                pollInterval: 500
-            },
-            useFsEvents: true
-            
-        })
+    chokiWatcher = chokidar.watch(watchedFolders, chokidarWatchConfig)
         .on('add', function (file, stats) {
 
             if (chokiWatcherReady) {
