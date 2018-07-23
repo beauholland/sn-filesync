@@ -26,7 +26,6 @@
     "node-sass": "^4.5.3"
   },
   "scripts": {
-    "static": "node src/static/serve-static.js",
     "setup": "\"run-script\\setup.cmd\"",
     "setup-mac": "./run-script/setup.cmd",
     "setup-win": "\"run-script\\setup.cmd\"",
