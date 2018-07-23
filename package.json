@@ -16,28 +16,27 @@
     "minimist": "^1.1.1",
     "moment": "^2.10.2",
     "node-notifier": "^4.3.1",
-    "node-sass": "^4.5.3",
     "osx-notifier": "^0.2.1",
     "winston": "^1.0.0"
   },
   "engines": {
     "node": ">=4.2.6 || >=5.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "node-sass": "^4.5.3"
+  },
   "scripts": {
+    "static": "node src/static/serve-static.js",
     "setup": "\"run-script\\setup.cmd\"",
     "setup-mac": "./run-script/setup.cmd",
     "setup-win": "\"run-script\\setup.cmd\"",
-
-    "watch-rttmsdev-css": "node-sass src/rttmsdev/style_sheets_source/portal-main.scss -w src/rttmsdev/style_sheets_source/*.scss --output-style compact -o src/rttmsdev/style_sheets",
+    "watch-rttmsdev-css": "node-sass src/rttmsdev/style_sheets_source/ -w src/rttmsdev/style_sheets_source/*.scss --output-style compact -o src/rttmsdev/style_sheets",
     "watch-rttmsdev": "node bin/app.js --config rttmsdev.config.json",
-    "watch-rttmsdev-all": "start npm run watch-rttmsdev-css && node bin/app.js --config rttmsdev.config.json", 
-    "watch-dev": "npm run watch-rttmsdev-all", 
-
-    "watch-riotintodev-css": "node-sass src/riotintodev/style_sheets_source/portal-main.scss -w src/riotintodev/style_sheets_source --output-style compact -o src/riotintodev/style_sheets",
+    "watch-rttmsdev-all": "start npm run watch-rttmsdev-css && node bin/app.js --config rttmsdev.config.json",
+    "watch-dev": "npm run watch-rttmsdev-all",
+    "watch-riotintodev-css": "node-sass src/riotintodev/style_sheets_source/ -w src/riotintodev/style_sheets_source/*.scss --output-style compact -o src/riotintodev/style_sheets",
     "watch-riotintodev": "node bin/app.js --config riotintodev.config.json",
-    "watch-riotintodev-all": "npm run watch-riotintodev-css && start node bin/app.js --config riotintodev.config.json", 
-
+    "watch-riotintodev-all": "npm run watch-riotintodev-css && start node bin/app.js --config riotintodev.config.json",
     "search-rttmsdev": "\"run-script\\search.cmd rttmsdev\"",
     "search-riotintodev": "\"run-script\\search.cmd riotintodev\"",
     "search-rttmsdev-win": "\"run-script\\search.cmd rttmsdev\"",
