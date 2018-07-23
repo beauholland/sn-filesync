@@ -12,4 +12,4 @@ exit
 @echo off
 set /P table="Table name: "
 set /P name="Entity name: "
-node bin/app.js --config %1.config.json --search --search_query "name=%name%" --search_table "%table%" --download
+node bin/app.js --config %1.config.json --search --search_query "nameSTARTSWITH%name%^ORu_nameSTARTSWITH%name%" --search_table "%table%" --download
