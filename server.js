@@ -22,12 +22,12 @@ var read = readline.createInterface({
  */
 read.question('Start watching an instance?(y/n)', (answer) => {
     if(answer.match(/^y(es)?$/i)) {
-        console.log("Choose an instance: ");
+        console.log("\nChoose an instance to start watching\n");
         var options = ['rttmsdev','riotintodev'];
         for(var i = 0; i < options.length; i++) {
             console.log("" + (i+1) + ". " + options[i]);
         }
-        read.question('Instance Name: ', (instance) => {
+        read.question('\nEnter number to select: ', (instance) => {
             var selection = parseInt(instance) - 1;
             if(selection >=0 && selection <= options.length) {
                 envs.push(options[selection]);
