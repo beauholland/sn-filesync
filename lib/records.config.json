@@ -124,7 +124,7 @@
             "table": "sysevent_email_template",
             "key": "name",
             "fields": {
-                "html": "message"
+                "html": "u_html"
             },
             "subDirPattern": "collection",
             "_custom": true
@@ -214,6 +214,22 @@
                 "js": "operation_script"
             },
             "_custom": true
+        },
+        "variable_for_grid": {
+            "table": "item_option_new",
+            "key": "name",
+            "fields": {
+                "json": "u_table_schema"
+            },
+            "subDirPattern": "variable_set",
+            "_custom": true
+        },
+        "ecc_agent_script_file": {
+            "table": "ecc_agent_script_file",
+            "key": "name",
+            "fields": {
+                "ps1": "script"
+            }
         }
     }
 }
