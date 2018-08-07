@@ -6,7 +6,7 @@ var ws = new Server({port: port});
 // module to use to we can spawn child processes
 const {spawn} = require('child_process');
 
-// store the list of instances we're watching 
+// store the list of instances we're watching
 var envs = [];
 
 // Read stdin
@@ -49,18 +49,18 @@ function main() {
     console.log("\n==========Server Started!==========\n");
     /* Listen for someone who wants to sync */
     ws.on('connection', function(w){
-  
+
         /* Once the syn button has been clicked */
         w.on('message', function(msg){
             // this is the received object which has all the required info
             var received = JSON.parse(msg);
-            
+
             // TESTING (print what was received)
             console.log("Env \t ==> " + received.env);
             console.log("Table \t ==> " + received.table);
             console.log("sys_id \t ==> " + received.sys_id);
 
-            
+
             var env = received.env.split('.')[0];
             downloadFile(env, received.table, received.sys_id);
             if(!envs.includes(env)) {
@@ -73,7 +73,7 @@ function main() {
             w.send("Server has received the following: " + msg);
 
         });
-  
+
         w.on('close', function() {0
             console.log('\nclosing connection\n');
         });
@@ -144,7 +144,7 @@ function downloadFile(env, table, sys_id) {
 
     ls.on('error', (error) => {
         console.log(`child process errored :( ${error}`);
-        process.exit(1); 
+        process.exit(1);
     });
 }
 
@@ -158,6 +158,7 @@ function startWatchingForChanges(env) {
 
     //"inherit" so that we can keep the colours
     var watch = spawn('cmd', ['/c', 'npm run watch-' + env], {stdio: "inherit"});
+    var styleswatch = spawn('cmd', ['/c', 'npm run watch-' + env + '-css'], {stdio: "inherit"});
 
     // watch.stdout.on('data', (data) => {
     //     process.stdout.write(data);
@@ -165,6 +166,10 @@ function startWatchingForChanges(env) {
 
     watch.on('close', (code) => {
         console.log("WATCHING PROCESS EXITED");
+        process.exit(0);
+    });
+    styleswatch.on('close', (code) => {
+        console.log("STYLES (SCSS) WATCHING PROCESS EXITED");
         process.exit(0);
     });
 }
