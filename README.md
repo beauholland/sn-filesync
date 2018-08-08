@@ -54,4 +54,11 @@ NOTE: use "corp\\\\first.last" and include the double backslash.
 ```
 
 * Run `node server.js` to start
+
+    Note: You can also pass in the instance you would like to watch and listen to e.g.
+
+    DEV: `node server y rttmsdev`
+
+    PATCH: `node server y riotintodev`
+
 * Navigate to a record, click the UI ACTION "Open in Editor"
