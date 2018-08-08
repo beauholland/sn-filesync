@@ -6,7 +6,7 @@ var ws = new Server({port: port});
 // module to use to we can spawn child processes
 const {spawn} = require('child_process');
 
-// store the list of instances we're watching 
+// store the list of instances we're watching
 var envs = [];
 
 // Read stdin
@@ -16,31 +16,66 @@ var read = readline.createInterface({
     output: process.stdout,
 });
 
-/*
- * What if user wants to start where he/she left off?
- * So ask the user if they want to start a watch for some instance.
- */
-read.question('Start watching an instance?(y/n)', (answer) => {
-    if(answer.match(/^y(es)?$/i)) {
-        console.log("\nChoose an instance to start watching\n");
-        var options = ['rttmsdev','riotintodev'];
-        for(var i = 0; i < options.length; i++) {
-            console.log("" + (i+1) + ". " + options[i]);
-        }
-        read.question('\nEnter number to select: ', (instance) => {
-            var selection = parseInt(instance) - 1;
-            if(selection >=0 && selection <= options.length) {
-                envs.push(options[selection]);
-                startWatchingForChanges(options[selection]);
+var availableInstances = ['rttmsdev','riotintodev'];
+
+if (process.argv.length > 2) {
+    //
+    // Have args been passed with the cli?
+    //
+    var argsWatch = process.argv[2];
+    if(argsWatch.match(/^y(es)?$/i)) {
+        var argsInstance = process.argv[3];
+        var selection = parseInt(argsInstance) - 1;
+        if (availableInstances.indexOf(argsInstance) !== -1) {
+            // Allows sending in of instance name itself e.g. `rttmsdev`
+            envs.push(argsInstance);
+            startWatchingForChanges(argsInstance);
+            main();
+        } else {
+            // fall back to checking if the supplied instance is an index of the `availableInstances` array
+            if(selection >=0 && selection <= availableInstances.length) {
+                envs.push(availableInstances[selection]);
+                startWatchingForChanges(availableInstances[selection]);
+                main();
+            } else {
+              console.error('Could not find the instance name or index (' + argsInstance + ') in:\n(' + availableInstances.toString() + ').\nSpecify either the instance name or its index from this array.');
             }
+        }
+    }
+
+} else {
+
+    /*
+     * No args passed - ask for selecion via cli.
+     *
+     * What if user wants to start where he/she left off?
+     * So ask the user if they want to start a watch for some instance.
+     */
+    read.question('Start watching an instance?(y/n)', (answer) => {
+        if(answer.match(/^y(es)?$/i)) {
+            console.log("\nChoose an instance to start watching\n");
+            for(var i = 0; i < availableInstances.length; i++) {
+                console.log("" + (i+1) + ". " + availableInstances[i]);
+            }
+            read.question('\nEnter number to select: ', (instance) => {
+                var selection = parseInt(instance) - 1;
+                if(selection >=0 && selection <= availableInstances.length) {
+                    envs.push(availableInstances[selection]);
+                    startWatchingForChanges(availableInstances[selection]);
+                }
+                read.close();
+                main();
+            });
+        } else {
             read.close();
             main();
-        });
-    } else {
-        read.close();
-        main();
-    }
-});
+        }
+    });
+
+}
+
+
+
 
 /*
  * Main, this is where you start listening for a "Open in Editor" Button press
@@ -49,18 +84,18 @@ function main() {
     console.log("\n==========Server Started!==========\n");
     /* Listen for someone who wants to sync */
     ws.on('connection', function(w){
-  
+
         /* Once the syn button has been clicked */
         w.on('message', function(msg){
             // this is the received object which has all the required info
             var received = JSON.parse(msg);
-            
+
             // TESTING (print what was received)
             console.log("Env \t ==> " + received.env);
             console.log("Table \t ==> " + received.table);
             console.log("sys_id \t ==> " + received.sys_id);
 
-            
+
             var env = received.env.split('.')[0];
             downloadFile(env, received.table, received.sys_id);
             if(!envs.includes(env)) {
@@ -73,7 +108,7 @@ function main() {
             w.send("Server has received the following: " + msg);
 
         });
-  
+
         w.on('close', function() {0
             console.log('\nclosing connection\n');
         });
@@ -144,7 +179,7 @@ function downloadFile(env, table, sys_id) {
 
     ls.on('error', (error) => {
         console.log(`child process errored :( ${error}`);
-        process.exit(1); 
+        process.exit(1);
     });
 }
 
@@ -158,6 +193,7 @@ function startWatchingForChanges(env) {
 
     //"inherit" so that we can keep the colours
     var watch = spawn('cmd', ['/c', 'npm run watch-' + env], {stdio: "inherit"});
+    var styleswatch = spawn('cmd', ['/c', 'npm run watch-' + env + '-css'], {stdio: "inherit"});
 
     // watch.stdout.on('data', (data) => {
     //     process.stdout.write(data);
@@ -165,6 +201,10 @@ function startWatchingForChanges(env) {
 
     watch.on('close', (code) => {
         console.log("WATCHING PROCESS EXITED");
+        process.exit(0);
+    });
+    styleswatch.on('close', (code) => {
+        console.log("STYLES (SCSS) WATCHING PROCESS EXITED");
         process.exit(0);
     });
 }
